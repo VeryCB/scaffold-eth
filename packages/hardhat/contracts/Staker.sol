@@ -28,7 +28,7 @@ contract Staker {
   }
 
   function execute() public {
-    require(block.timestamp >= deadline, 'Cannot execute until deadline is reached.');
+    require(block.timestamp >= deadline, 'Failed to execute: deadline is not reached.');
     require(!exampleExternalContract.completed, 'Failed to execute: contract already completed.')
 
     if (address(this).balance >= threshold) {
@@ -39,14 +39,14 @@ contract Staker {
   }
 
   function withdraw(address payable sender) public {
-    require(msg.sender == sender, 'Only the owner can withdraw.');
-    require(openForWithdraw, 'Withdraw is disabled.');
+    require(msg.sender == sender, 'Failed to withdraw: permission denied.');
+    require(openForWithdraw, 'Failed to withdraw: withdraw is not open.');
 
     uint balance = balances[sender];
-    require(balance > 0, 'Nothing to withdraw.');
+    require(balance > 0, 'Failed to withdraw: nothing to withdraw.');
 
     bool sent = sender.send(balance);
-    require(sent, 'Failed to withdraw.');
+    require(sent, 'Failed to withdraw: transfer failed.');
 
     delete balances[sender];
   }
