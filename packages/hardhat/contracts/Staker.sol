@@ -51,7 +51,7 @@ contract Staker {
     delete balances[sender];
   }
 
-  function timeLeft() public view returns (uint256) {
+  function timeLeft() public view returns (uint) {
     if (block.timestamp >= deadline) {
       return 0;
     }
