@@ -20,8 +20,6 @@ contract Staker {
     exampleExternalContract = ExampleExternalContract(exampleExternalContractAddress);
   }
 
-  // Collect funds in a payable `stake()` function and track individual `balances` with a mapping:
-  //  ( make sure to add a `Stake(address,uint256)` event and emit it for the frontend <List/> display )
   function stake() public payable {
     require(!exampleExternalContract.completed, 'Failed to stake: contract already completed.')
 
@@ -35,7 +33,6 @@ contract Staker {
 
     if (address(this).balance >= threshold) {
       exampleExternalContract.complete{value: address(this).balance}();
-      // TODO: clear balance mapping
     } else {
       openForWithdraw = true;
     }
@@ -54,7 +51,6 @@ contract Staker {
     delete balances[sender];
   }
 
-  // Add a `timeLeft()` view function that returns the time left before the deadline for the frontend
   function timeLeft() public view returns (uint256) {
     if (block.timestamp >= deadline) {
       return 0;
