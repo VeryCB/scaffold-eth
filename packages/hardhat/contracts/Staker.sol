@@ -21,7 +21,7 @@ contract Staker {
   }
 
   function stake() public payable {
-    require(!exampleExternalContract.completed, 'Failed to stake: contract already completed.')
+    require(!exampleExternalContract.completed(), 'Failed to stake: contract already completed.');
 
     balances[msg.sender] += msg.value;
     emit Stake(msg.sender, msg.value);
@@ -29,7 +29,7 @@ contract Staker {
 
   function execute() public {
     require(block.timestamp >= deadline, 'Failed to execute: deadline is not reached.');
-    require(!exampleExternalContract.completed, 'Failed to execute: contract already completed.')
+    require(!exampleExternalContract.completed(), 'Failed to execute: contract already completed.');
 
     if (address(this).balance >= threshold) {
       exampleExternalContract.complete{value: address(this).balance}();
